@@ -18,23 +18,31 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-{
-    $this->userModel->create([
-        'nama' => $request->input('nama'),
-        'nim' => $request->input('npm'),
-        'kelas_id' => $request->input('kelas_id'),
-    ]);
+    {
+        $this->userModel->create([
+            'nama'     => $request->input('nama'),
+            'nim'      => $request->input('nim'),   
+        ]);
 
-    return redirect()->to('/user');
-}
+        return redirect()->route('user.index');
+    }
+
     public function index()
-{
-    $data = [
-        'title' => 'List User',
-        'users' => $this->userModel->getUser(),
-    ];
-    return view('list_user', $data);
-}
+    {
+        $data = [
+            'title' => 'List User',
+            'users' => $this->userModel->getUser(),
+        ];
+        return view('list_user', $data);
+    }
 
+    public function create()
+    {
+        $kelas = $this->kelasModel->all();  
+        $data = [
+            'title' => 'Create User',
+            'kelas' => $kelas,
+        ];
+        return view('create_user', $data);
+    }
 }
-
